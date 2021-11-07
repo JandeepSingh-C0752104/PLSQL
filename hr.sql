@@ -1,5 +1,5 @@
 
-SET SERVEROUTPUT ON;
+22SET SERVEROUTPUT ON;
 BEGIN
 dbms_output.put_line('Hello World');
 END;
@@ -158,3 +158,30 @@ BEGIN
             WHERE employee_id = i;
         END LOOP;
 END;
+
+-- DELETING
+
+BEGIN
+    FOR i IN 207..216 
+        LOOP
+            DELETE FROM employees_copy WHERE employee_id = i;
+        END LOOP;
+END;
+
+
+-- SEQUENCING 
+
+CREATE SEQUENCE employee_id_seq
+START WITH 207
+INCREMENT BY 1;
+
+BEGIN
+    FOR i IN 207..216 
+        LOOP
+            INSERT INTO employees_copy (employee_id, first_name, last_name, email, hire_date, job_id, salary)
+            VALUES (employee_id_seq.nextval,'employee_id'||employee_id_seq.nextval, 'temp_emp', 'abc@gmail.com', sysdate, 'IT_PROG',1000);
+        END LOOP;
+END;
+select * from employees_copy
+ORDER BY employee_id DESC;
+
