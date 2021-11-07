@@ -106,4 +106,55 @@ BEGIN
             DBMS_OUTPUT.PUT_LINE(i);
         END LOOP;
 END;
+
+
+-- SQL IN PL/SQL
+
+DECLARE
+    v_name varchar2(50);
+    v_salary employees.salary%type;
+BEGIN
+    SELECT first_name || ' ' || last_name , salary INTO v_name, v_salary FROM employees WHERE employee_id = 120;
+    DBMS_OUTPUT.put_line('The salary of '|| v_name || ' is : ' || v_salary);
+END;
             
+DECLARE
+    v_name varchar2(50);
+    v_salary employees.salary%type;
+    v_employee_id employees.employee_id%type := 130;
+BEGIN
+    SELECT first_name || ' ' || last_name , salary INTO v_name, v_salary FROM employees WHERE employee_id = v_employee_id;
+    DBMS_OUTPUT.put_line('The salary of '|| v_name || ' is : ' || v_salary);
+END;
+            
+    
+-- CREATING TABLE
+
+CREATE TABLE employees_copy AS SELECT * FROM employees;
+
+
+select * from employees_copy
+ORDER BY employee_id DESC;
+
+-- INSERTING JUNK DATA
+
+BEGIN
+    FOR i IN 207..216 
+        LOOP
+            INSERT INTO employees_copy (employee_id, first_name, last_name, email, hire_date, job_id, salary)
+            VALUES (i,'employee_id'||i, 'temp_emp', 'abc@gmail.com', sysdate, 'IT_PROG',1000);
+        END LOOP;
+END;
+
+-- UPDATING
+
+DECLARE
+    v_salary_increase NUMBER :=4000;
+BEGIN
+    FOR i IN 207..216 
+        LOOP
+            UPDATE employees_copy
+                SET salary = salary + v_salary_increase
+            WHERE employee_id = i;
+        END LOOP;
+END;
